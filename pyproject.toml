@@ -30,3 +30,17 @@ dependencies = [
     "xgboost>=3.2.0",
     "yfinance>=1.4.1",
 ]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupytext>=1.19.3",
+    "pre-commit>=4.6.0",
+]
+
+[tool.jupytext]
+formats = "ipynb,py:percent"
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["F401", "F841", "E402"]
+"*.py" = ["F401", "F841", "E402"]
