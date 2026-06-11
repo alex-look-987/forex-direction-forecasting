@@ -1,7 +1,7 @@
-run:
-	uv run main.py
+makefilePROJECT_NAME := $(shell uv run python -c \
+	"import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['name'])")
 
-# Help Command
+# Help
 
 .PHONY: help
 help: ## show this help message
@@ -13,6 +13,11 @@ help: ## show this help message
 
 # Setup & Environment
 
+.PHONY: check-uv
+check-uv: ## checking if uv already install
+	@command -v uv >/dev/null 2>&1 || \
+		{ echo "uv no instalado: https://docs.astral.sh/uv/getting-started/installation/"; exit 1; }
+
 .PHONY: install-dev
 install-dev: ## install project dependencies (including dev)
 	uv sync --all-extras
@@ -21,14 +26,22 @@ install-dev: ## install project dependencies (including dev)
 install-prod: ## production dependencies
 	uv sync --no-dev
 
-.PHONY: boostrap
-boostrap: install-dev ## full project setup
+.PHONY: bootstrap
+bootstrap: check-uv install-dev ## full project setup
 	uv run pre-commit install
+	@echo "setup environment"
+
+# Run
+
+.PHONY: run
+run: ## run main script
+	uv run main.py
+
 
 # Pre-commit
 
-.PHONY: pre-commit-insstall
-pre-commit-run: ## run pre-commit over all file
+.PHONY: pre-commit-run
+pre-commit-run: ## run pre-commit over all files
 	uv run pre-commit run --all-files
 
 .PHONY: pre-commit-update
@@ -41,7 +54,7 @@ pre-commit-update: ## update hooks latest version
 clean: ## delete build artifacts and python cache
 	rm -rf \
 	.pytest_cache \
-	.mpypy_cache \
+	.mypy_cache \
 	.ruff_cache \
 	dist \
 	build

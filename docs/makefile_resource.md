@@ -1,6 +1,6 @@
 # Commands
 
-## Boostrap
+## Bootstrap
 
 .PHONY: setup-precommit
 setup-precommit: ## registra hooks de pre-commit
