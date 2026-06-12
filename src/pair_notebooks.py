@@ -1,25 +1,32 @@
-import json
 import subprocess
 from pathlib import Path
 
 
-def pair_notebooks():
+def pair_and_sync_notebooks():
     for notebook in Path("notebooks").rglob("*.ipynb"):
-        with open(notebook, encoding="utf-8") as f:
-            data = json.load(f)
+        subprocess.run(
+            [
+                "uv",
+                "run",
+                "jupytext",
+                "--set-formats",
+                "ipynb,py:percent",
+                str(notebook),
+            ],
+            check=True,
+        )
 
-        metadata = data.get("metadata", {})
-        jupytext_metadata = metadata.get("jupytext")
+        subprocess.run(
+            [
+                "uv",
+                "run",
+                "jupytext",
+                "--sync",
+                str(notebook),
+            ],
+            check=True,
+        )
 
-        if not jupytext_metadata:
-            subprocess.run(
-                [
-                    "uv",
-                    "run",
-                    "jupytext",
-                    "--set-formats",
-                    "ipynb,py:percent",
-                    str(notebook),
-                ],
-                check=True,
-            )
+
+if __name__ == "__main__":
+    pair_and_sync_notebooks()

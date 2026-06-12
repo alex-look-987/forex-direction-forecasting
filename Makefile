@@ -48,6 +48,13 @@ pre-commit-run: ## run pre-commit over all files
 pre-commit-update: ## update hooks latest version
 	uv run pre-commit autoupdate
 
+
+# Jupyter Notebooks Management
+
+.PHONY: pair
+pair:
+	uv run python src/pair_notebooks.py
+
 # Cleaning
 
 .PHONY: clean
