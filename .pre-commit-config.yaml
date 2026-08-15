@@ -1,11 +1,12 @@
 repos: 
-  - repo: local
-    hooks:
-      - id: pair-and-sync-notebooks
-        name: Pair and sync notebooks
-        entry: uv run python src/pair_notebooks.py
-        language: system
-        pass_filenames: false
+  
+  # - repo: local
+  #   hooks:
+  #     - id: pair-and-sync-notebooks
+  #       name: Pair and sync notebooks
+  #       entry: uv run python src/pair_notebooks.py
+  #       language: system
+  #       pass_filenames: false
 
   - repo: https://github.com/mwouts/jupytext
     rev: v1.19.3
